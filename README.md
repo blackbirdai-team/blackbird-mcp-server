@@ -1,6 +1,6 @@
 # Blackbird MCP Server 
 
-![Compass MCP Server Demo](resources/context_check_mcp_example.gif)
+![Blackbird MCP Server Demo](resources/context_check_mcp_example.gif)
 
 
 
@@ -8,7 +8,7 @@
 
 Before you begin, ensure you have:
 
-- [Compass API Credentials](https://docs.blackbird.ai/)
+- [Blackbird API Credentials](https://docs.blackbird.ai/)
   - You will need either:
     - `BLACKBIRD_USERNAME` and `BLACKBIRD_PASSWORD`
     - `BLACKBIRD_CLIENT_KEY` and `BLACKBIRD_SECRET_KEY`
@@ -57,7 +57,7 @@ code %APPDATA%\Claude\claude_desktop_config.json
 ### Add the Blackbird server configuration:
 
 Replace `<PATH-TO-REPO>` with the path where you cloned the repository.
-Replace the `***` with your actual Compass credentials. **Note**: you only need `BLACKBIRD_CLIENT_KEY` and `BLACKBIRD_SECRET_KEY`, or `BLACKBIRD_USERNAME` and `BLACKBIRD_PASSWORD`.
+Replace the `***` with your actual Blackbird credentials. **Note**: you only need `BLACKBIRD_CLIENT_KEY` and `BLACKBIRD_SECRET_KEY`, or `BLACKBIRD_USERNAME` and `BLACKBIRD_PASSWORD`.
 
 ```json
 {
@@ -108,7 +108,7 @@ To set up the Blckbird MCP server in Cursor:
         "backoff",
         "mcp",
         "run",
-        "<PATH-TO-REPO>/blackbird-compass-mcp-server/server.py"
+        "<PATH-TO-REPO>/blackbird-mcp-server/server.py"
       ],
       "env": {
         "BLACKBIRD_CLIENT_KEY": "***",
