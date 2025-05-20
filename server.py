@@ -11,8 +11,8 @@ import httpx
 from mcp.server.fastmcp import FastMCP
 
 
-### CompassApiClient
-BASE_URL = "https://api.blackbird.ai/compass"
+### BlackbirApiClient
+BASE_URL = "https://api.blackbird.ai"
 BLACKBIRD_CONTEXT_MAX_RETRIES = 60
 BLACKBIRD_CONTEXT_MAX_TIME = 600
 BLACKBIRD_CONTEXT_CHECK_INTERVAL = 10
@@ -31,11 +31,11 @@ class Token:
 
 
 class ResourceType(enum.Enum):
-    CONTEXT = "contextChecks"
-    VISION = "visionAnalyses"
+    CONTEXT = "compass/contextChecks"
+    VISION = "compass/visionAnalyses"
 
 
-class CompassApiClient:
+class BlackbirdApiClient:
     _auth_url: str
     _auth_payload: dict
     token: Token
@@ -48,7 +48,7 @@ class CompassApiClient:
         password: str | None = None,
     ):
         if username and password:
-            self._auth_url = "https://api.blackbird.ai/compass/token"
+            self._auth_url = f"{BASE_URL}/compass/token"
             self._auth_payload = {
                 "username": username,
                 "password": password,
@@ -170,13 +170,13 @@ class CompassApiClient:
 
 ### Server
 
-mcp = FastMCP("blackbird-compass-mcp-server")
+mcp = FastMCP("blackbird-mcp-server")
 BLACKBIRD_CLIENT_KEY = os.environ.get("BLACKBIRD_CLIENT_KEY", "")
 BLACKBIRD_SECRET_KEY = os.environ.get("BLACKBIRD_SECRET_KEY", "")
 BLACKBIRD_USERNAME = os.environ.get("BLACKBIRD_USERNAME", "")
 BLACKBIRD_PASSWORD = os.environ.get("BLACKBIRD_PASSWORD", "")
 
-BLACKBIRD_api = CompassApiClient(
+blackbird_api = BlackbirdApiClient(
     client_id=BLACKBIRD_CLIENT_KEY,
     client_secret=BLACKBIRD_SECRET_KEY,
     username=BLACKBIRD_USERNAME,
@@ -188,17 +188,17 @@ BLACKBIRD_api = CompassApiClient(
 async def check_context(context: str) -> str:
     """
     Tool to check if a given context has truthful claims or not.
-    Additionaly, it measures how risky the claims in the context are.
-    Useful for fact checking
+    Additionaly, it measures how risky the claims are in the given context.
+    Useful for fact checking.
     """
-    result = await BLACKBIRD_api.submit_and_wait_resource(context, ResourceType.CONTEXT)
+    result = await blackbird_api.submit_and_wait_resource(context, ResourceType.CONTEXT)
     return json.dumps(result)
 
 
 @mcp.tool()
 async def check_vision(url: str) -> str:
-    """Tool to check if a given image is fake with an explanation."""
-    result = await BLACKBIRD_api.submit_and_wait_resource(url, ResourceType.VISION, opts={"explain": True})
+    """Tool to check if a given image is fake or ai-generated with an explanation."""
+    result = await blackbird_api.submit_and_wait_resource(url, ResourceType.VISION, opts={"explain": True})
     return json.dumps(result)
 
 
