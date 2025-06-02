@@ -1,6 +1,12 @@
 # Blackbird MCP Server 
+<p align="center">
+  <img src="resources/BlackbirdAI-Logo.png" height="60"/>
+  <img src="resources/blackbirdlogo.png" height="60"/>
+</p>
 
-![Blackbird MCP Server Demo](resources/context_check_mcp_example.gif)
+<p align="center">
+  <img src="resources/context_check_mcp_example.gif" />
+</p>
 
 
 
